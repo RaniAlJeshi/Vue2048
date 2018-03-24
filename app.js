@@ -19,7 +19,13 @@ var vueInstance = new Vue({
     created:function(){
         this.grid = this.addNumInRandomLocation(this.grid);
         this.grid = this.addNumInRandomLocation(this.grid);
-        //console.log(this.grid);
+       
+    },
+    mounted:function(){
+        this.updateCellColors();
+    },
+    updated:function(){
+        this.updateCellColors();
     },
     methods:{
         addNumInRandomLocation:function(gridTemp){
@@ -60,6 +66,7 @@ var vueInstance = new Vue({
             if(this.compareGrids(pastGrid,this.grid)){
                 this.grid = this.addNumInRandomLocation(this.grid);            
                 this.getScore();
+                //this.updateCellColors();
             }
         },
         keyPressedUp: function(){
@@ -144,6 +151,43 @@ var vueInstance = new Vue({
             }
             return false; 
 
+        }, updateCellColors:function(){
+            var cell; 
+            for(var r = 0; r<16; r++){
+                cell = this.$refs['counter_'+r];
+                cell.classList = [];
+                switch (cell.textContent){
+                    case '2':
+                    case '4':
+                        cell.classList.value="border text-light rounded col span_1_of_4 bg_2_4";
+                    break;
+                    case '8':
+                        cell.classList.value="border text-light rounded col span_1_of_4 bg_8";
+                    break;
+                    case '16':
+                        cell.classList.value="border text-light rounded col span_1_of_4 bg_16";
+                    break;
+                    case '32':
+                        cell.classList.value="border text-light rounded col span_1_of_4 bg_32";
+                    break;
+                    case '64':
+                        cell.classList.value="border text-light rounded col span_1_of_4 bg_64";
+                    break;
+                    case '128':
+                        cell.classList.value="border text-light rounded col span_1_of_4 bg_128";
+                    break;
+                    case '256':
+                        cell.classList.value="border text-light rounded col span_1_of_4 bg_256";
+                    break;
+                    case '':
+                        cell.classList.value="border text-light rounded col span_1_of_4";
+                    break;
+                    default:
+                        cell.classList.value="border text-light rounded col span_1_of_4 bg_high";
+                    break;
+                }
+
+            }
         }
 
 

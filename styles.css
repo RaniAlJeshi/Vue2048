@@ -1,9 +1,13 @@
-
+body{
+	background-image: url('sky.jpg');
+	background-repeat: no-repeat;
+	background-position: 0;
+}
 /*  SECTIONS  */
 .section {
-	clear: both;
-	padding: 0px;
-	margin: 0px;
+	background-color: #659DBD;
+    width: 580px;
+    opacity: 0.8;
 }
 
 /*  COLUMN SETUP  */
@@ -11,22 +15,51 @@
 	display: block;
 	float:left;
 	text-align: center;
-	border-style: solid;
-    border-width: 1px;
+	
 }
-.col:first-child { margin-left: 0; }
+.col:first-child { margin-left: 3px; }
 
 /*  GROUPING  */
 .group:before,
 .group:after { content:""; display:table; }
 .group:after { clear:both;}
-.group { zoom:1; /* For IE 6/7 */ }
-
+.group { 
+	clear: both;
+    padding: 12px;
+    margin: 0px auto;	
+ }
+.group.header{
+	color:#FFFFFF;
+}
 .span_1_of_4 {
 	width: 24%;
     height: 75px;
-    margin: auto;
-    padding-top: 50px;
-    font-size: 30px;
+    padding-top: 17px;
+	font-size: 30px;
+	margin: 2px;	
+}
+.bg_2_4{
+	background-color: #85DCB8;
+}
+.bg_8{
+	background-color: rgb(65, 219, 116);
+}
+.bg_16{
+	background-color:#41B3A3;
+}
+.bg_32{
+	background-color: #C38D9E;
+}
+.bg_64{
+	background-color: #E27D60;
+}
+.bg_128{
+	background-color: rgb(188, 101, 197);
+}
+.bg_256{
+	background-color: rgb(226, 77, 36);
+}
+.bg_high{
+	background-color: rgb(226, 96, 96);
 }
 
