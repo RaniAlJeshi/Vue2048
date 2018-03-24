@@ -1,8 +1,13 @@
-new Vue({
+var vueInstance = new Vue({
     el:'#canvas',
     data:{
         name:"2048", 
         score:0,
+        /*combined: false,
+        shiftedLeft: false,
+        shiftedRight: false,
+        shiftedUp: false,
+        shiftedDown:false,*/
         grid:[
             [0,0,0,0],
             [0,0,0,0],
@@ -13,7 +18,8 @@ new Vue({
     },
     created:function(){
         this.grid = this.addNumInRandomLocation(this.grid);
-        console.log(this.grid);
+        this.grid = this.addNumInRandomLocation(this.grid);
+        //console.log(this.grid);
     },
     methods:{
         addNumInRandomLocation:function(gridTemp){
@@ -35,24 +41,78 @@ new Vue({
             return gridTemp;
         }, 
         keyPressedUp: function(){
+            this.grid = this.pivotGrid(this.grid);
+            this.grid = this.slideArraysInGrid(this.grid, 'left');
+            this.grid = this.pivotGrid(this.grid);
             this.grid = this.addNumInRandomLocation(this.grid);            
             this.getScore();
         },
         keyPressedDown: function(){
+            this.grid = this.pivotGrid(this.grid);
+            this.grid = this.slideArraysInGrid(this.grid, 'right');
+            this.grid = this.pivotGrid(this.grid);
             this.grid = this.addNumInRandomLocation(this.grid);
             this.getScore();
         },
         keyPressedLeft: function(){
+            this.grid = this.slideArraysInGrid(this.grid, 'left');
             this.grid = this.addNumInRandomLocation(this.grid);
             this.getScore();
         },
         keyPressedRight: function(){
+            this.grid = this.slideArraysInGrid(this.grid, 'right');
             this.grid = this.addNumInRandomLocation(this.grid);
             this.getScore();
         }, 
         getScore:function(){
             this.score++;
+        },
+        slideArraysInGrid:function(tempGrid, dir){
+            for(var i = 0; i< tempGrid.length; i++){
+                var lengthOfArray = tempGrid[i].length;
+                tempGrid[i] = tempGrid[i].filter(v => v);     
+                tempGrid[i] = this.combineValues(tempGrid[i], dir)
+                tempGrid[i] = tempGrid[i].filter(v => v); 
+                var tempLength = tempGrid[i].length; 
+                    for(var k = 0; k< lengthOfArray - tempLength; k++){
+                        if(dir == 'left')
+                            tempGrid[i].push(0);
+                        else if(dir == 'right')
+                            tempGrid[i].unshift(0);
+                    }
+            };
+            return tempGrid; 
+        }, 
+        combineValues:function(gridArray, dir){
+            if(dir == 'left'){
+                for(var i = 0; i< gridArray.length-1; i++){
+                    if( gridArray[i]!== 0 && gridArray[i] === gridArray[i+1]){
+                    gridArray[i] = gridArray[i]*2;
+                    gridArray[i+1] = 0;
+                    }
+                }
+            }
+            else if(dir == 'right'){
+                for(var i = gridArray.length-1; i > -1 ; i--){
+                    if( gridArray[i]!== 0 && gridArray[i] === gridArray[i-1]){
+                    gridArray[i] = gridArray[i]*2;
+                    gridArray[i-1] = 0;
+                    }
+                }
+            }
+            
+            return gridArray;
+        },
+        pivotGrid:function(tempGrid){
+            var gridHolder = [[],[],[],[]]; 
+            for(var i = 0; i<tempGrid.length; i++){
+                for(var j = tempGrid[i].length - 1; j > -1; j--){
+                    gridHolder[j][i] = tempGrid[i][j];
+                }
+            }
+            return gridHolder;
         }
+
 
     }
     
