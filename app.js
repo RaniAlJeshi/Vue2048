@@ -65,8 +65,7 @@ var vueInstance = new Vue({
 
             if(this.compareGrids(pastGrid,this.grid)){
                 this.grid = this.addNumInRandomLocation(this.grid);            
-                this.getScore();
-                //this.updateCellColors();
+                this.updateCellColors();                
             }
         },
         keyPressedUp: function(){
@@ -85,39 +84,42 @@ var vueInstance = new Vue({
         keyPressedRight: function(){
             this.grid = this.slideArraysInGrid(this.grid, 'right');            
         }, 
-        getScore:function(){
-            this.score++;
+        setScore:function(s){
+            this.score+=s;
         },
         slideArraysInGrid:function(tempGrid, dir){
-            for(var i = 0; i< tempGrid.length; i++){
-                var lengthOfArray = tempGrid[i].length;
-                tempGrid[i] = tempGrid[i].filter(v => v);     
-                tempGrid[i] = this.combineValues(tempGrid[i], dir)
-                tempGrid[i] = tempGrid[i].filter(v => v); 
-                var tempLength = tempGrid[i].length; 
-                    for(var k = 0; k< lengthOfArray - tempLength; k++){
-                        if(dir == 'left')
-                            tempGrid[i].push(0);
-                        else if(dir == 'right')
-                            tempGrid[i].unshift(0);
-                    }
+            var g = this.copyGrid(tempGrid); 
+            for(var i = 0; i< g.length; i++){
+                var lengthOfArray = g[i].length;
+                g[i] = g[i].filter(v => v);     
+                g[i] = this.combineValues(g[i], dir)
+                g[i] = g[i].filter(v => v); 
+                var tempLength = g[i].length; 
+                for(var k = 0; k< lengthOfArray - tempLength; k++){
+                    if(dir == 'left')
+                        g[i].push(0);
+                    else if(dir == 'right')
+                        g[i].unshift(0);
+                }
             };
-            return tempGrid; 
+            return g; 
         }, 
         combineValues:function(gridArray, dir){
             if(dir == 'left'){
                 for(var i = 0; i< gridArray.length-1; i++){
                     if( gridArray[i]!== 0 && gridArray[i] === gridArray[i+1]){
-                    gridArray[i] = gridArray[i]*2;
-                    gridArray[i+1] = 0;
+                        gridArray[i] = gridArray[i]*2;
+                        gridArray[i+1] = 0;
+                        this.setScore(gridArray[i]);
                     }
                 }
             }
             else if(dir == 'right'){
                 for(var i = gridArray.length-1; i > -1 ; i--){
                     if( gridArray[i]!== 0 && gridArray[i] === gridArray[i-1]){
-                    gridArray[i] = gridArray[i]*2;
-                    gridArray[i-1] = 0;
+                        gridArray[i] = gridArray[i]*2;
+                        gridArray[i-1] = 0;
+                        this.setScore(gridArray[i]);
                     }
                 }
             }
