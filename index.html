@@ -14,8 +14,7 @@
     </head>
 
     <body>
-        <div id="canvas" tabindex="-1" v-on:keyup.up='keyPressedUp' v-on:keyup.down='keyPressedDown()' 
-            v-on:keyup.left='keyPressedLeft()' v-on:keyup.right='keyPressedRight()'>
+        <div id="canvas" tabindex="-1" v-on:keyup='keyPressed'>
             <h1>{{name}}</h1>
             <h2>Score is <span id='scoreSpan'> {{score}}</span></h2>
             <div class="section group">

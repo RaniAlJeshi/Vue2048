@@ -40,29 +40,43 @@ var vueInstance = new Vue({
             }
             return gridTemp;
         }, 
+        keyPressed:function(event){
+            var pastGrid = this.copyGrid(this.grid); 
+            switch (event.key){
+                case 'ArrowDown':
+                    this.keyPressedDown();
+                break;
+                case 'ArrowUp':
+                    this.keyPressedUp();
+                break;
+                case 'ArrowLeft':
+                    this.keyPressedLeft();
+                break;
+                case 'ArrowRight':
+                    this.keyPressedRight(); 
+                break;               
+            }
+
+            if(this.compareGrids(pastGrid,this.grid)){
+                this.grid = this.addNumInRandomLocation(this.grid);            
+                this.getScore();
+            }
+        },
         keyPressedUp: function(){
             this.grid = this.pivotGrid(this.grid);
             this.grid = this.slideArraysInGrid(this.grid, 'left');
-            this.grid = this.pivotGrid(this.grid);
-            this.grid = this.addNumInRandomLocation(this.grid);            
-            this.getScore();
+            this.grid = this.pivotGrid(this.grid);            
         },
         keyPressedDown: function(){
             this.grid = this.pivotGrid(this.grid);
             this.grid = this.slideArraysInGrid(this.grid, 'right');
-            this.grid = this.pivotGrid(this.grid);
-            this.grid = this.addNumInRandomLocation(this.grid);
-            this.getScore();
+            this.grid = this.pivotGrid(this.grid);            
         },
         keyPressedLeft: function(){
-            this.grid = this.slideArraysInGrid(this.grid, 'left');
-            this.grid = this.addNumInRandomLocation(this.grid);
-            this.getScore();
+            this.grid = this.slideArraysInGrid(this.grid, 'left');            
         },
         keyPressedRight: function(){
-            this.grid = this.slideArraysInGrid(this.grid, 'right');
-            this.grid = this.addNumInRandomLocation(this.grid);
-            this.getScore();
+            this.grid = this.slideArraysInGrid(this.grid, 'right');            
         }, 
         getScore:function(){
             this.score++;
@@ -111,6 +125,25 @@ var vueInstance = new Vue({
                 }
             }
             return gridHolder;
+        }, 
+        copyGrid:function(tempGrid){
+            var gridHolder = [[],[],[],[]]; 
+            for(var i = 0; i<tempGrid.length; i++){
+                for(var j = tempGrid[i].length - 1; j > -1; j--){
+                    gridHolder[i][j] = tempGrid[i][j];
+                }
+            }
+            return gridHolder;
+        }, 
+        compareGrids:function(pastGrid, currentGrid){
+            for(var i=0; i<pastGrid.length; i++) {
+                for(var j=0; j<currentGrid.length; j++){
+                    if(pastGrid[i][j]!== currentGrid[i][j])
+                        return true;
+                }
+            }
+            return false; 
+
         }
 
 
