@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+        <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+        </script>
+        <link href="styles.css"  rel="stylesheet">
+        <meta charset="UTF-8">
+        <title>2048 Game Using Vue.js</title>
+    </head>
+
+    <body>
+        <div id="canvas" tabindex="-1" v-on:keyup.up='keyPressedUp' v-on:keyup.down='keyPressedDown()' 
+            v-on:keyup.left='keyPressedLeft()' v-on:keyup.right='keyPressedRight()'>
+            <h1>{{name}}</h1>
+            <h2>Score is <span id='scoreSpan'> {{score}}</span></h2>
+            <div class="section group">
+                <div class="col span_1_of_4" id="counter_0">{{grid[0][0]}}</div>
+                <div class="col span_1_of_4" id="counter_1">{{grid[0][1]}}</div>
+                <div class="col span_1_of_4" id="counter_2">{{grid[0][2]}}</div>
+                <div class="col span_1_of_4" id="counter_3">{{grid[0][3]}}</div>
+                <div class="col span_1_of_4" id="counter_4">{{grid[1][0]}}</div>
+                <div class="col span_1_of_4" id="counter_5">{{grid[1][1]}}</div>
+                <div class="col span_1_of_4" id="counter_6">{{grid[1][2]}}</div>
+                <div class="col span_1_of_4" id="counter_7">{{grid[1][3]}}</div>
+                <div class="col span_1_of_4" id="counter_8">{{grid[2][0]}}</div>
+                <div class="col span_1_of_4" id="counter_9">{{grid[2][1]}}</div>
+                <div class="col span_1_of_4" id="counter_10">{{grid[2][2]}}</div>
+                <div class="col span_1_of_4" id="counter_11">{{grid[2][3]}}</div>
+                <div class="col span_1_of_4" id="counter_12">{{grid[3][0]}}</div>
+                <div class="col span_1_of_4" id="counter_13">{{grid[3][1]}}</div>
+                <div class="col span_1_of_4" id="counter_14">{{grid[3][2]}}</div>
+                <div class="col span_1_of_4" id="counter_15">{{grid[3][3]}}</div>
+            </div>
+        </div>
+    </body>
+    
+    <script src="app.js"></script>
+</html>
