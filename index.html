@@ -11,9 +11,11 @@
 
     <body>
         <div id="canvas">
-            <div class="group header">
+            <div class=" group header">
                 <h1>{{name}}</h1>
-                <h2>Score is <span id='scoreSpan'> {{score}}</span></h2>
+                <h3>Combine numbers till 2048</h3>
+                <h3>Score is <span id='scoreSpan'> {{score}}</span></h3>
+                <h3>Use arrow buttons</h3>
             </div>
             <div class="section group rounded">
                 <template v-for="(array, aIdx) in grid">

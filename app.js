@@ -9,7 +9,7 @@ var vueInstance = new Vue({
             [0,0,0,0],
             [0,0,0,0]
         ], 
-        canvasData : ""
+        newAddedCell : [0,0]
     },
     created:function(){
         this.grid = this.addNumInRandomLocation(this.grid);
@@ -17,10 +17,11 @@ var vueInstance = new Vue({
        
     },
     mounted:function(){
-        this.updateCellColors();
+        this.updateCellColors(this.$refs);
     },
     updated:function(){
-        this.updateCellColors();
+        this.updateCellColors(this.$refs);
+        this.updateNewAddedCellBorder(this.$refs, this.newAddedCell);
     },
     methods:{
         addNumInRandomLocation:function(gridTemp){
@@ -38,6 +39,7 @@ var vueInstance = new Vue({
             if(freeCells.length > 0){
                 var rand1 = Math.floor(Math.random() * freeCells.length);
                 gridTemp[freeCells[rand1].x][freeCells[rand1].y] = Math.random(1) > 0.5 ? 2 : 4;
+                this.newAddedCell = [freeCells[rand1].x ,freeCells[rand1].y]                
             }
             return gridTemp;
         }, 
@@ -61,7 +63,8 @@ var vueInstance = new Vue({
             }
             if(this.compareGrids(pastGrid,this.grid)){
                 this.grid = this.addNumInRandomLocation(this.grid);            
-                this.updateCellColors();                
+                this.updateCellColors(this.$refs);      
+                          
             }
         },
         keyPressedUp: function(){
@@ -149,12 +152,12 @@ var vueInstance = new Vue({
             }
             return false; 
 
-        }, updateCellColors:function(){
+        }, updateCellColors:function(refrences){
             var cell;
             var classList = 'col span_1_of_4' ;
             for(var r = 0; r<this.grid.length; r++){
                 for(var k = 0; k<this.grid[r].length; k++){
-                    cell = this.$refs['counter_'+r+'_'+k][0];
+                    cell = refrences['counter_'+r+'_'+k][0];
                     cell.classList = [];
                     switch (cell.textContent){
                         case '2':
@@ -179,6 +182,9 @@ var vueInstance = new Vue({
                         case '256':
                             cell.classList.value=classList + " bg_256";
                         break;
+                        case '2048':
+                            cell.classList.value=classList + " newBorder2048";
+                        break;
                         case '':
                             cell.classList.value=classList + "";
                         break;
@@ -189,6 +195,11 @@ var vueInstance = new Vue({
                 }
 
             }
+        }, 
+        updateNewAddedCellBorder:function(refrences, newCell){
+            var cell = refrences['counter_'+newCell[0]+'_'+newCell[1]][0];
+            cell.classList.value = cell.classList.value + " newBorder";
+            console.log(cell);
         }
 
 
