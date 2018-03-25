@@ -3,11 +3,6 @@ var vueInstance = new Vue({
     data:{
         name:"2048", 
         score:0,
-        /*combined: false,
-        shiftedLeft: false,
-        shiftedRight: false,
-        shiftedUp: false,
-        shiftedDown:false,*/
         grid:[
             [0,0,0,0],
             [0,0,0,0],
@@ -48,21 +43,22 @@ var vueInstance = new Vue({
         }, 
         keyPressed:function(event){
             var pastGrid = this.copyGrid(this.grid); 
-            switch (event.key){
-                case 'ArrowDown':
-                    this.keyPressedDown();
-                break;
-                case 'ArrowUp':
-                    this.keyPressedUp();
-                break;
-                case 'ArrowLeft':
-                    this.keyPressedLeft();
-                break;
-                case 'ArrowRight':
-                    this.keyPressedRight(); 
-                break;               
+            if(event){
+                switch (event.code){
+                    case 'ArrowDown':
+                        this.keyPressedDown();
+                    break;
+                    case 'ArrowUp':
+                        this.keyPressedUp();
+                    break;
+                    case 'ArrowLeft':
+                        this.keyPressedLeft();
+                    break;
+                    case 'ArrowRight':
+                        this.keyPressedRight(); 
+                    break;               
+                }
             }
-
             if(this.compareGrids(pastGrid,this.grid)){
                 this.grid = this.addNumInRandomLocation(this.grid);            
                 this.updateCellColors();                
@@ -154,39 +150,42 @@ var vueInstance = new Vue({
             return false; 
 
         }, updateCellColors:function(){
-            var cell; 
-            for(var r = 0; r<16; r++){
-                cell = this.$refs['counter_'+r];
-                cell.classList = [];
-                switch (cell.textContent){
-                    case '2':
-                    case '4':
-                        cell.classList.value="border text-light rounded col span_1_of_4 bg_2_4";
-                    break;
-                    case '8':
-                        cell.classList.value="border text-light rounded col span_1_of_4 bg_8";
-                    break;
-                    case '16':
-                        cell.classList.value="border text-light rounded col span_1_of_4 bg_16";
-                    break;
-                    case '32':
-                        cell.classList.value="border text-light rounded col span_1_of_4 bg_32";
-                    break;
-                    case '64':
-                        cell.classList.value="border text-light rounded col span_1_of_4 bg_64";
-                    break;
-                    case '128':
-                        cell.classList.value="border text-light rounded col span_1_of_4 bg_128";
-                    break;
-                    case '256':
-                        cell.classList.value="border text-light rounded col span_1_of_4 bg_256";
-                    break;
-                    case '':
-                        cell.classList.value="border text-light rounded col span_1_of_4";
-                    break;
-                    default:
-                        cell.classList.value="border text-light rounded col span_1_of_4 bg_high";
-                    break;
+            var cell;
+            var classList = 'col span_1_of_4' ;
+            for(var r = 0; r<this.grid.length; r++){
+                for(var k = 0; k<this.grid[r].length; k++){
+                    cell = this.$refs['counter_'+r+'_'+k][0];
+                    cell.classList = [];
+                    switch (cell.textContent){
+                        case '2':
+                        case '4':
+                            cell.classList.value=classList + " bg_2_4";
+                        break;
+                        case '8':
+                            cell.classList.value=classList + " bg_8";
+                        break;
+                        case '16':
+                            cell.classList.value=classList + " bg_16";
+                        break;
+                        case '32':
+                            cell.classList.value=classList + " bg_32";
+                        break;
+                        case '64':
+                            cell.classList.value=classList + " bg_64";
+                        break;
+                        case '128':
+                            cell.classList.value=classList + " bg_128";
+                        break;
+                        case '256':
+                            cell.classList.value=classList + " bg_256";
+                        break;
+                        case '':
+                            cell.classList.value=classList + "";
+                        break;
+                        default:
+                            cell.classList.value=classList + " bg_high";
+                        break;
+                    }
                 }
 
             }
@@ -196,3 +195,7 @@ var vueInstance = new Vue({
     }
     
 })
+
+document.onkeyup = function(){
+    vueInstance.keyPressed(event)
+}

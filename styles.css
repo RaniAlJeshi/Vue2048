@@ -1,12 +1,10 @@
 body{
-	background-image: url('sky.jpg');
-	background-repeat: no-repeat;
-	background-position: 0;
+	background-color: #000000;
 }
 /*  SECTIONS  */
 .section {
 	background-color: #659DBD;
-    width: 580px;
+    width: 640px;
     opacity: 0.8;
 }
 
@@ -34,9 +32,12 @@ body{
 .span_1_of_4 {
 	width: 24%;
     height: 75px;
-    padding-top: 17px;
+    padding-top: 40px;
 	font-size: 30px;
 	margin: 2px;	
+	border-radius: .25rem;
+	border: 1px solid #dee2e6;
+	color: #f8f9fa;
 }
 .bg_2_4{
 	background-color: #85DCB8;
