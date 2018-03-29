@@ -1,4 +1,4 @@
-var vueInstance = new Vue({
+let vueInstance = new Vue({
     el:'#canvas',
     data:{
         name:"2048", 
@@ -25,9 +25,9 @@ var vueInstance = new Vue({
     },
     methods:{
         addNumInRandomLocation:function(gridTemp){
-            var freeCells = [];
-            for(var i=0; i<gridTemp.length; i++) {
-                for(var j=0; j<gridTemp[i].length; j++){
+            let freeCells = [];
+            for(let i=0; i<gridTemp.length; i++) {
+                for(let j=0; j<gridTemp[i].length; j++){
                     if(gridTemp[i][j] === 0){
                         freeCells.push({
                             x:i,
@@ -37,14 +37,14 @@ var vueInstance = new Vue({
                 }
             }
             if(freeCells.length > 0){
-                var rand1 = Math.floor(Math.random() * freeCells.length);
+                let rand1 = Math.floor(Math.random() * freeCells.length);
                 gridTemp[freeCells[rand1].x][freeCells[rand1].y] = Math.random(1) > 0.5 ? 2 : 4;
                 this.newAddedCell = [freeCells[rand1].x ,freeCells[rand1].y]                
             }
             return gridTemp;
         }, 
         keyPressed:function(event){
-            var pastGrid = this.copyGrid(this.grid); 
+            let pastGrid = this.copyGrid(this.grid); 
             if(event){
                 switch (event.code){
                     case 'ArrowDown':
@@ -68,14 +68,14 @@ var vueInstance = new Vue({
             }
         },
         keyPressedUp: function(){
-            this.grid = this.pivotGrid(this.grid);
+            this.grid = this.transposeGrid(this.grid);
             this.grid = this.slideArraysInGrid(this.grid, 'left');
-            this.grid = this.pivotGrid(this.grid);            
+            this.grid = this.transposeGrid(this.grid);            
         },
         keyPressedDown: function(){
-            this.grid = this.pivotGrid(this.grid);
+            this.grid = this.transposeGrid(this.grid);
             this.grid = this.slideArraysInGrid(this.grid, 'right');
-            this.grid = this.pivotGrid(this.grid);            
+            this.grid = this.transposeGrid(this.grid);            
         },
         keyPressedLeft: function(){
             this.grid = this.slideArraysInGrid(this.grid, 'left');            
@@ -87,14 +87,14 @@ var vueInstance = new Vue({
             this.score+=s;
         },
         slideArraysInGrid:function(tempGrid, dir){
-            var g = this.copyGrid(tempGrid); 
-            for(var i = 0; i< g.length; i++){
-                var lengthOfArray = g[i].length;
+            let g = this.copyGrid(tempGrid); 
+            for(let i = 0; i< g.length; i++){
+                let lengthOfArray = g[i].length;
                 g[i] = g[i].filter(v => v);     
                 g[i] = this.combineValues(g[i], dir)
                 g[i] = g[i].filter(v => v); 
-                var tempLength = g[i].length; 
-                for(var k = 0; k< lengthOfArray - tempLength; k++){
+                let tempLength = g[i].length; 
+                for(let k = 0; k< lengthOfArray - tempLength; k++){
                     if(dir == 'left')
                         g[i].push(0);
                     else if(dir == 'right')
@@ -105,7 +105,7 @@ var vueInstance = new Vue({
         }, 
         combineValues:function(gridArray, dir){
             if(dir == 'left'){
-                for(var i = 0; i< gridArray.length-1; i++){
+                for(let i = 0; i< gridArray.length-1; i++){
                     if( gridArray[i]!== 0 && gridArray[i] === gridArray[i+1]){
                         gridArray[i] = gridArray[i]*2;
                         gridArray[i+1] = 0;
@@ -114,7 +114,7 @@ var vueInstance = new Vue({
                 }
             }
             else if(dir == 'right'){
-                for(var i = gridArray.length-1; i > -1 ; i--){
+                for(let i = gridArray.length-1; i > -1 ; i--){
                     if( gridArray[i]!== 0 && gridArray[i] === gridArray[i-1]){
                         gridArray[i] = gridArray[i]*2;
                         gridArray[i-1] = 0;
@@ -125,27 +125,27 @@ var vueInstance = new Vue({
             
             return gridArray;
         },
-        pivotGrid:function(tempGrid){
-            var gridHolder = [[],[],[],[]]; 
-            for(var i = 0; i<tempGrid.length; i++){
-                for(var j = tempGrid[i].length - 1; j > -1; j--){
+        transposeGrid:function(tempGrid){
+            let gridHolder = [[],[],[],[]]; 
+            for(let i = 0; i<tempGrid.length; i++){
+                for(let j = tempGrid[i].length - 1; j > -1; j--){
                     gridHolder[j][i] = tempGrid[i][j];
                 }
             }
             return gridHolder;
         }, 
         copyGrid:function(tempGrid){
-            var gridHolder = [[],[],[],[]]; 
-            for(var i = 0; i<tempGrid.length; i++){
-                for(var j = tempGrid[i].length - 1; j > -1; j--){
+            let gridHolder = [[],[],[],[]]; 
+            for(let i = 0; i<tempGrid.length; i++){
+                for(let j = tempGrid[i].length - 1; j > -1; j--){
                     gridHolder[i][j] = tempGrid[i][j];
                 }
             }
             return gridHolder;
         }, 
         compareGrids:function(pastGrid, currentGrid){
-            for(var i=0; i<pastGrid.length; i++) {
-                for(var j=0; j<currentGrid.length; j++){
+            for(let i=0; i<pastGrid.length; i++) {
+                for(let j=0; j<currentGrid.length; j++){
                     if(pastGrid[i][j]!== currentGrid[i][j])
                         return true;
                 }
@@ -153,10 +153,10 @@ var vueInstance = new Vue({
             return false; 
 
         }, updateCellColors:function(refrences){
-            var cell;
-            var classList = 'col span_1_of_4' ;
-            for(var r = 0; r<this.grid.length; r++){
-                for(var k = 0; k<this.grid[r].length; k++){
+            let cell;
+            let classList = 'col span_1_of_4' ;
+            for(let r = 0; r<this.grid.length; r++){
+                for(let k = 0; k<this.grid[r].length; k++){
                     cell = refrences['counter_'+r+'_'+k][0];
                     cell.classList = [];
                     switch (cell.textContent){
@@ -197,7 +197,7 @@ var vueInstance = new Vue({
             }
         }, 
         updateNewAddedCellBorder:function(refrences, newCell){
-            var cell = refrences['counter_'+newCell[0]+'_'+newCell[1]][0];
+            let cell = refrences['counter_'+newCell[0]+'_'+newCell[1]][0];
             cell.classList.value = cell.classList.value + " newBorder";
             console.log(cell);
         }
